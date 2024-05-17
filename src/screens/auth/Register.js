@@ -1,24 +1,18 @@
 import React, { useState } from 'react'
-import './Register.css';
-
 import Loading from '../../components/Loading';
 
 import { db, auth } from '../../firebase';
 import { setDoc, doc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
+import { Form, Button } from 'react-bootstrap';
 import swal from 'sweetalert';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
-function Register({ setCreateDaycare }) {
-
+function Register({ setRegisterOpen }) {
     const [loading, setLoading] = useState(false)
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
 
-    const register = async () => {
+    //Register
+    const register = async (name, email, password) => {
         if (name === '') {
             swal('Error!', 'Please enter a name.', 'warning');
             return;
@@ -27,22 +21,28 @@ function Register({ setCreateDaycare }) {
         setLoading(true);
         try {
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
-            await setDoc(doc(db, 'daycares', user.uid), {
+            await setDoc(doc(db, 'users', user.uid), {
                 name: name,
                 email: email,
                 password: password,
-                children: 0,
-                drivers: 0,
-                routes: 0,
-                childrenInRoute: 0,
             });
 
             swal('Nice!', 'A user has been created successfully!', 'success');
-            setLoading(false);
+            setRegisterOpen(false)
         } catch (error) {
             swal('Error!', `Try again: ${error.message}`, 'error');
+        } finally {
             setLoading(false);
         }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const name = form.elements.name.value;
+        const email = form.elements.email.value;
+        const password = form.elements.password.value;
+        register(name,email, password);
     };
 
     if (loading) {
@@ -52,32 +52,53 @@ function Register({ setCreateDaycare }) {
     }
 
     return (
-        <div class="form-add-container">
-            <div className='form-add-body-container '>
-                <Form.Label>Name</Form.Label>
-                <Form.Control maxLength={35} value={name}
-                    onChange={(event) => { setName(event.target.value) }} placeholder="Type here..." />
+        <div className="auth register-overlay">
+            <h1 className='text-light'>Sign Up</h1>
+            <div className='form-login border-dark border-3 bg-white bg-gradient'>
+                <Form style={{ width: '95%' }} onSubmit={handleSubmit}>
+                    <Form.Label className='label-login'>
+                        Name
+                    </Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        required
+                    />
 
-                <hr className='invisibleHr' />
+                    <Form.Label className='label-login'>
+                        Email
+                    </Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    />
 
-                <Form.Label>Email</Form.Label>
-                <Form.Control maxLength={35} value={email}
-                    onChange={(event) => { setEmail(event.target.value) }} placeholder="Type here..." />
-
-                <hr className='invisibleHr' />
-
-                <Form.Label>Password</Form.Label>
-                <Form.Control maxLength={35} value={password}
-                    onChange={(event) => { setPassword(event.target.value) }} placeholder="Type here..." />
-
-                <hr className='invisibleHr' />
-
-                <center>
-                    <button className='form-add-button-submit' onClick={() => { register() }}>
-                        <h2>Submit</h2>
-                    </button>
-                </center>
+                    <Form.Label className='label-login'>
+                        Password
+                    </Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                        minLength={8}
+                    />
+                    <center>
+                        <Button variant="danger" className='button-submit' style={{ backgroundColor: '#D22E1E' }} type="submit">
+                            Sign Up
+                        </Button>
+                    </center>
+                </Form>
             </div>
+            <p className='text-light m-3'>Already have an account?</p>
+            <Button onClick={() => { setRegisterOpen(false) }}
+                variant="danger" className='button-submit' style={{ backgroundColor: '#D22E1E' }}>
+                Login
+            </Button>
         </div>
     );
 }

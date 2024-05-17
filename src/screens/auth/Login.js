@@ -1,45 +1,18 @@
 import React, { useState } from 'react';
-import './Login.css'
+import './Auth.css'
 
 import Loading from '../../components/Loading';
+import Register from './Register.js';
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { db, auth } from '../../firebase';
-import { setDoc, doc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 
-import Form from 'react-bootstrap/Form';
+import { Form, Button } from 'react-bootstrap';
 import swal from 'sweetalert';
 
 function Login() {
     const [loading, setLoading] = useState(false);
-
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-    const register = async () => {
-        if (name === '') {
-            swal('Error!', 'Please enter a name.', 'warning');
-            return;
-        }
-
-        setLoading(true);
-        try {
-            const { user } = await createUserWithEmailAndPassword(auth, email, password);
-            await setDoc(doc(db, 'users', user.uid), {
-                name: name,
-                email: email,
-                password: password,
-            });
-
-            swal('Nice!', 'A user has been created successfully!', 'success');
-        } catch (error) {
-            swal('Error!', `Try again: ${error.message}`, 'error');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [registerOpen, setRegisterOpen] = useState(true);
 
     //Login
     const login = async (email, password) => {
@@ -49,7 +22,7 @@ function Login() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            swal('Error', 'Error, please try again.', 'warning');
+            swal('Error', 'Error, please try again.', 'error');
         }
     };
 
@@ -69,59 +42,46 @@ function Login() {
 
     return (
         <>
-            <div className="Login">
-                <Form onSubmit={handleSubmit}>
-                    <h2>Email</h2>
-                    <Form.Control
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                    />
+            <div className="auth">
+                <h1 className='text-light'>Log In</h1>
+                <div className='form-login border-dark border-3 bg-white bg-gradient'>
+                    <Form style={{ width: '95%' }} onSubmit={handleSubmit}>
+                        <Form.Label className='label-login'>
+                            Email
+                        </Form.Label>
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        />
 
-                    <h2>Password</h2>
-                    <Form.Control
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                        minLength={6}
-                    />
-
-                    <center>
-                        <button type="submit">Sign In</button>
-                    </center>
-                </Form>
+                        <Form.Label className='label-login'>
+                            Password
+                        </Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            required
+                            minLength={8}
+                        />
+                        <center>
+                            <Button variant="danger" className='button-submit' style={{ backgroundColor: '#D22E1E' }} type="submit">
+                                Sign In
+                            </Button>
+                        </center>
+                    </Form>
+                </div>
+                <p className='text-light m-3'>Do not have an account?</p>
+                <Button onClick={() => {setRegisterOpen(true)}}
+                 variant="danger" className='button-submit' style={{ backgroundColor: '#D22E1E' }}>
+                    Register
+                </Button>
             </div>
 
-                    <div class="form-add-container">
-            <div className='form-add-body-container '>
-                <Form.Label>Name</Form.Label>
-                <Form.Control maxLength={35} value={name}
-                    onChange={(event) => { setName(event.target.value) }} placeholder="Type here..." />
-
-                <hr className='invisibleHr' />
-
-                <Form.Label>Email</Form.Label>
-                <Form.Control maxLength={35} value={email}
-                    onChange={(event) => { setEmail(event.target.value) }} placeholder="Type here..." />
-
-                <hr className='invisibleHr' />
-
-                <Form.Label>Password</Form.Label>
-                <Form.Control maxLength={35} value={password}
-                    onChange={(event) => { setPassword(event.target.value) }} placeholder="Type here..." />
-
-                <hr className='invisibleHr' />
-
-                <center>
-                    <button className='form-add-button-submit' onClick={() => { register() }}>
-                        <h2>Submit</h2>
-                    </button>
-                </center>
-            </div>
-        </div>
+            {registerOpen && <Register setRegisterOpen={setRegisterOpen}/>}
         </>
     );
 }

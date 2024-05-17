@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Fonts
 import './utils/fonts/Quicksand/Quicksand-Regular.ttf';
 import './utils/fonts/Quicksand/Quicksand-Medium.ttf';
 import './utils/fonts/Quicksand/Quicksand-SemiBold.ttf';
 import './utils/fonts/Quicksand/Quicksand-Bold.ttf';
+
+import './utils/fonts/Sanchez/Sanchez-Regular.ttf';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
