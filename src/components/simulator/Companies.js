@@ -24,17 +24,27 @@ function Companies({ setModalCompanies, setCompany }) {
 
                         <button onClick={() => {handleSelection("Google")}} className="modal-company-option">
                         <img src={require('../../utils/img/google.png')} />
-                            <h2>Company #1</h2>
+                            <h2>Google</h2>
                         </button>
 
-                        <button onClick={() => {handleSelection("Capital One")}} className="modal-company-option">
-                        <img src={require('../../utils/img/google.png')} />
-                            <h2>Company #1</h2>
+                        <button onClick={() => {handleSelection("Apple")}} className="modal-company-option">
+                        <img src={require('../../utils/img/apple.png')} />
+                            <h2>Apple</h2>
                         </button>
 
-                        <button onClick={() => {handleSelection("Microsoft")}} className="modal-company-option">
-                        <img src={require('../../utils/img/google.png')} />
-                            <h2>Company #1</h2>
+                        <button onClick={() => {handleSelection("Amazon")}} className="modal-company-option">
+                        <img src={require('../../utils/img/amazon.png')} />
+                            <h2>Amazon</h2>
+                        </button>
+
+                        <button onClick={() => {handleSelection("Spotify")}} className="modal-company-option">
+                        <img src={require('../../utils/img/spotify.png')} />
+                            <h2>Spotify</h2>
+                        </button>
+
+                        <button onClick={() => {handleSelection("Tesla")}} className="modal-company-option">
+                        <img src={require('../../utils/img/tesla.png')} />
+                            <h2>Tesla</h2>
                         </button>
                     </div>
 

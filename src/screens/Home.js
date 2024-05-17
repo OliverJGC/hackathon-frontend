@@ -98,7 +98,7 @@ function Home() {
                     />
                 </div>
                 <div className="user">
-                    <h2>{userName}!</h2>
+                    <h2>{userName}</h2>
                 </div>
             </div>
 
@@ -166,17 +166,27 @@ function Home() {
                             <h2>List of Companies</h2>
                             <div>
                                 <img src={require('../utils/img/google.png')} />
-                                <h2>Company #1</h2>
+                                <h2>Google</h2>
                             </div>
 
                             <div>
-                                <img src={require('../utils/img/google.png')} />
-                                <h2>Company #1</h2>
+                                <img src={require('../utils/img/apple.png')} />
+                                <h2>Apple</h2>
                             </div>
 
                             <div>
-                                <img src={require('../utils/img/google.png')} />
-                                <h2>Company #1</h2>
+                                <img src={require('../utils/img/amazon.png')} />
+                                <h2>Amazon</h2>
+                            </div>
+
+                            <div>
+                                <img src={require('../utils/img/spotify.png')} />
+                                <h2>Spotify</h2>
+                            </div>
+
+                            <div>
+                                <img src={require('../utils/img/tesla.png')} />
+                                <h2>Tesla</h2>
                             </div>
                         </div>
                     </div>

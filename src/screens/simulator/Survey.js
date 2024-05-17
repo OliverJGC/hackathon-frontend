@@ -15,6 +15,7 @@ function Survey() {
     const [loading, setLoading] = useState(false);
     const [money, setMoney] = useState();
     const [company, setCompany] = useState('');
+    const [companyWord, setCompanyWord] = useState('');
     const [result, setResult] = useState({});
 
     const [modalCompanies, setModalCompanies] = useState(false);
@@ -88,7 +89,7 @@ function Survey() {
 
                 </div>
             </div>
-            {modalCompanies && <Companies setModalCompanies={setModalCompanies} setCompany={setCompany} />}
+            {modalCompanies && <Companies setModalCompanies={setModalCompanies} setCompany={setCompany} setCompanyWord={setCompanyWord} />}
             {openSimulation && <Simulation company={company} result={result}/>}
         </>
     );
